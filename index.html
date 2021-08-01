@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="Webpage description goes here" />
+    <meta charset="utf-8">
+    <title>GTA Car Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <style>
+        button {
+            background-color: cyan;
+            padding: 10px 30px;
+
+        }
+
+        div#box {
+            background-color: rgb(173, 173, 190);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px 0px;
+        }
+
+        div#timer {
+            font-size: 40px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        div#page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+        }
+
+        div#spacer {
+            padding: 5%;
+        }
+
+        div#counter {}
+    </style>
+</head>
+
+<body>
+    <div id="page">
+        <div id="box">
+            <div id="timer">
+                2:30:00
+            </div>
+            <div id="counter">
+
+            </div>
+        </div>
+        <div id="spacer">
+        </div>
+        <button> Sold </button>
+    </div>
+
+    <script>
+        const DURATION = 0.25 * 60 * 60 * 1000;
+        //const DURATION = 50000;
+        const MS_IN_DAY = 1000 * 60 * 60 * 24;
+        const MS_IN_HOUR = 1000 * 60 * 60;
+        const MS_IN_MINUTE = 1000 * 60;
+        const MS_IN_SECOND = 1000;
+        let startTime = new Date(window.localStorage.getItem("startTime"));
+        let counter = window.localStorage.getItem("counter");
+        let counterDiv = document.querySelector("div#counter");
+        counterDiv.textContent = counter;
+        let button = document.querySelector("button");
+        button.addEventListener("click", () => {
+            counter++;
+            startTime = new Date();
+            window.localStorage.setItem("counter", counter);
+            window.localStorage.setItem("startTime", startTime);
+            counterDiv.textContent = counter;
+            button.disabled = true;
+        });
+        let timerDiv = document.querySelector("div#timer");
+
+        updateRender();
+        window.setInterval(updateRender, 1000);
+
+        function updateRender() {
+            let elapsed = DURATION - (new Date() - startTime);
+            if (elapsed <= 0) {
+                button.disabled = false;
+                return;
+            } else {
+                button.disabled = true;
+            }
+            let hours = Math.floor((elapsed % MS_IN_DAY) / MS_IN_HOUR);
+            let minutes = Math.floor(((elapsed % MS_IN_DAY) % MS_IN_HOUR) / MS_IN_MINUTE);
+            let seconds = Math.floor((((elapsed % MS_IN_DAY) % MS_IN_HOUR) % MS_IN_MINUTE) / MS_IN_SECOND);
+            timerDiv.textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
