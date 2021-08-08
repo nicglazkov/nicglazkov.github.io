@@ -41,6 +41,10 @@
             padding: 5%;
         }
 
+        div#spacer2 {
+            padding-top: 20%;
+        }
+
         div#counter {}
     </style>
 </head>
@@ -57,41 +61,88 @@
         </div>
         <div id="spacer">
         </div>
-        <button> Sold </button>
+        <button id="sold"> Sold </button>
+        <div id="spacer2"></div>
+        <button id="reset"> Reset </button>
     </div>
 
     <script>
         const DURATION = 2.5 * 60 * 60 * 1000;
-        //const DURATION = 50000;
+        //const DURATION = 5000;
         const MS_IN_DAY = 1000 * 60 * 60 * 24;
         const MS_IN_HOUR = 1000 * 60 * 60;
         const MS_IN_MINUTE = 1000 * 60;
         const MS_IN_SECOND = 1000;
-        let startTime = new Date(window.localStorage.getItem("startTime"));
-        let counter = window.localStorage.getItem("counter");
+        const INITIAL_TIMER_VALUE = "2:30:00";
+        const INITIAL_COUNTER_VALUE = "";
+        const MAX_30H_SELL = 7;
+        const SELL_WINDOW = 30 * MS_IN_HOUR;
+        //const SELL_WINDOW = 50 * MS_IN_SECOND;
+        let startTimes = getStartTimes();
+        let startTime = startTimes[0];
         let counterDiv = document.querySelector("div#counter");
-        counterDiv.textContent = counter;
-        let button = document.querySelector("button");
-        button.addEventListener("click", () => {
-            counter++;
+        counterDiv.textContent = startTimes.length;
+        let resetButton = document.querySelector("button#reset");
+        resetButton.addEventListener("click", () => {
+            window.localStorage.clear();
+            startTime = 0;
+            updateRender();
+        });
+        let soldButton = document.querySelector("button#sold");
+        soldButton.addEventListener("click", () => {
             startTime = new Date();
-            window.localStorage.setItem("counter", counter);
-            window.localStorage.setItem("startTime", startTime);
-            counterDiv.textContent = counter;
-            button.disabled = true;
+            startTimes.push(startTime);
+            setStartTimes(startTimes);
+            counterDiv.textContent = startTimes.length;
+            soldButton.disabled = true;
         });
         let timerDiv = document.querySelector("div#timer");
 
         updateRender();
         window.setInterval(updateRender, 1000);
 
+        function getStartTimes() {
+            let rawList = JSON.parse(window.localStorage.getItem("startTimes"));
+            if (!rawList) {
+                return [];
+            }
+            let listOfDates = rawList.map(value => new Date(value));
+            console.log(listOfDates);
+            return listOfDates;
+        }
+
+        function setStartTimes(value) {
+            window.localStorage.setItem("startTimes", JSON.stringify(startTimes));
+        }
+
         function updateRender() {
-            let elapsed = DURATION - (new Date() - startTime);
+            console.log(startTimes);
+            while(true) {
+                let earliestSold = startTimes[0];
+                let windowElapsed = SELL_WINDOW - (new Date() - earliestSold);
+                if (windowElapsed <= 0) {
+                    startTimes.shift();
+                    setStartTimes(startTimes);
+                    continue;
+                }
+                break;
+            }
+            let mostRecentSold;
+            if (startTimes.length == 0) {
+                mostRecentSold = new Date(0);
+            } else {
+                mostRecentSold = startTimes[startTimes.length - 1];
+            }
+            let elapsed = DURATION - (new Date() - mostRecentSold);
             if (elapsed <= 0) {
-                button.disabled = false;
+                if (startTimes.length >= MAX_30H_SELL) {
+                    soldButton.disabled = true;
+                    return;
+                }
+                enableSoldButton();
                 return;
             } else {
-                button.disabled = true;
+                soldButton.disabled = true;
             }
             let hours = Math.floor((elapsed % MS_IN_DAY) / MS_IN_HOUR);
             let minutes = Math.floor(((elapsed % MS_IN_DAY) % MS_IN_HOUR) / MS_IN_MINUTE);
@@ -99,6 +150,11 @@
             timerDiv.textContent = `${hours}:${minutes}:${seconds}`;
         }
 
+        function enableSoldButton() {
+            soldButton.disabled = false;
+            timerDiv.textContent = INITIAL_TIMER_VALUE;
+            counterDiv.textContent = INITIAL_COUNTER_VALUE;
+        }
 
     </script>
 
