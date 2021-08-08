@@ -10,7 +10,7 @@
     <!-- <link rel="stylesheet" href="css/style.css"> -->
     <style>
         button {
-            background-color: cyan;
+            background-color: rgb(61, 255, 255);
             padding: 10px 30px;
 
         }
@@ -22,6 +22,11 @@
             justify-content: center;
             flex-direction: column;
             padding: 10px 0px;
+        }
+
+        button#reset {
+            background-color: crimson;
+            color:rgb(255, 255, 255)
         }
 
         div#timer {
@@ -78,20 +83,38 @@
         const MAX_30H_SELL = 7;
         const SELL_WINDOW = 30 * MS_IN_HOUR;
         //const SELL_WINDOW = 50 * MS_IN_SECOND;
+        let canNotify = false;
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notification");
+        }
+
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+            canNotify = true;
+        }
+
+        // Otherwise, we need to ask the user for permission
+        else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(function (permission) {
+                // If the user accepts, let's create a notification
+                if (permission === "granted") {
+                    canNotify = true;
+                }
+            });
+        }
         let startTimes = getStartTimes();
-        let startTime = startTimes[0];
         let counterDiv = document.querySelector("div#counter");
         counterDiv.textContent = startTimes.length;
         let resetButton = document.querySelector("button#reset");
         resetButton.addEventListener("click", () => {
             window.localStorage.clear();
-            startTime = 0;
+            startTimes = [];
             updateRender();
         });
         let soldButton = document.querySelector("button#sold");
         soldButton.addEventListener("click", () => {
-            startTime = new Date();
-            startTimes.push(startTime);
+            startTimes.push(new Date());
             setStartTimes(startTimes);
             counterDiv.textContent = startTimes.length;
             soldButton.disabled = true;
@@ -116,8 +139,7 @@
         }
 
         function updateRender() {
-            console.log(startTimes);
-            while(true) {
+            while (true) {
                 let earliestSold = startTimes[0];
                 let windowElapsed = SELL_WINDOW - (new Date() - earliestSold);
                 if (windowElapsed <= 0) {
@@ -150,10 +172,17 @@
             timerDiv.textContent = `${hours}:${minutes}:${seconds}`;
         }
 
+        function notify(){
+         new Notification("Time to sell a car")   
+        }
+
         function enableSoldButton() {
+            if(soldButton.disabled == true){
+                notify();
+            }
             soldButton.disabled = false;
             timerDiv.textContent = INITIAL_TIMER_VALUE;
-            counterDiv.textContent = INITIAL_COUNTER_VALUE;
+            counterDiv.textContent = startTimes.length;
         }
 
     </script>
