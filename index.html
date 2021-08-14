@@ -26,7 +26,7 @@
 
         button#reset {
             background-color: crimson;
-            color:rgb(255, 255, 255)
+            color: rgb(255, 255, 255)
         }
 
         div#timer {
@@ -57,6 +57,9 @@
 <body>
     <div id="page">
         <div id="box">
+            <div id="time-end-box">
+                You will be able to sell the next car at <span id="time-end"> 6:30 AM </span>
+            </div>
             <div id="timer">
                 2:30:00
             </div>
@@ -82,6 +85,7 @@
         const INITIAL_COUNTER_VALUE = "";
         const MAX_30H_SELL = 7;
         const SELL_WINDOW = 30 * MS_IN_HOUR;
+        //const SELL_WINDOW = 150 * MS_IN_SECOND;
         //const SELL_WINDOW = 50 * MS_IN_SECOND;
         let canNotify = false;
         // Let's check if the browser supports notifications
@@ -103,6 +107,7 @@
                 }
             });
         }
+        let timeEnd = document.querySelector("span#time-end");
         let startTimes = getStartTimes();
         let counterDiv = document.querySelector("div#counter");
         counterDiv.textContent = startTimes.length;
@@ -159,9 +164,11 @@
             if (elapsed <= 0) {
                 if (startTimes.length >= MAX_30H_SELL) {
                     soldButton.disabled = true;
+                    timeEnd.textContent = toTime(startTimes[0], SELL_WINDOW);
                     return;
                 }
                 enableSoldButton();
+                timeEnd.textContent = toTime(new Date(), DURATION);
                 return;
             } else {
                 soldButton.disabled = true;
@@ -169,15 +176,37 @@
             let hours = Math.floor((elapsed % MS_IN_DAY) / MS_IN_HOUR);
             let minutes = Math.floor(((elapsed % MS_IN_DAY) % MS_IN_HOUR) / MS_IN_MINUTE);
             let seconds = Math.floor((((elapsed % MS_IN_DAY) % MS_IN_HOUR) % MS_IN_MINUTE) / MS_IN_SECOND);
-            timerDiv.textContent = `${hours}:${minutes}:${seconds}`;
+            timerDiv.textContent = `${hours}:${padTime(minutes)}:${padTime(seconds)}`;
+            timeEnd.textContent = toTime(mostRecentSold, DURATION);
+
         }
 
-        function notify(){
-         new Notification("Time to sell a car")   
+        function padTime(time) {
+            if (time > 10)
+                return time;
+            return `0${time}`;
+        }
+        function toTime(date, duration) {
+            let time = new Date(+ date + duration);
+            let minutes = time.getMinutes();
+            let hours = time.getHours();
+            let ampm = "AM";
+            if (hours > 12) {
+                hours = hours - 12;
+                ampm = "PM"
+            } else if (hours == 0) {
+                hours = 12;
+            }
+            return `${hours}:${padTime(minutes)} ${ampm}`;
+
+        }
+
+        function notify() {
+            new Notification("Time to sell a car")
         }
 
         function enableSoldButton() {
-            if(soldButton.disabled == true){
+            if (soldButton.disabled == true) {
                 notify();
             }
             soldButton.disabled = false;
