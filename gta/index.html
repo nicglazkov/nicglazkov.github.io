@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="description" content="Webpage description goes here" />
+    <meta charset="utf-8">
+    <title>GTA Car Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+    <style>
+        button {
+            background-color: rgb(61, 255, 255);
+            padding: 10px 30px;
+
+        }
+
+        div#box {
+            background-color: rgb(173, 173, 190);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 10px 0px;
+        }
+
+        button#reset {
+            background-color: crimson;
+            color: rgb(255, 255, 255)
+        }
+
+        div#timer {
+            font-size: 40px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        div#page {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+        }
+
+        div#spacer {
+            padding: 5%;
+        }
+
+        div#spacer2 {
+            padding-top: 20%;
+        }
+
+        div#counter {}
+    </style>
+</head>
+
+<body>
+    <div id="page">
+        <div id="box">
+            <div id="time-end-box">
+                You will be able to sell the next car at <span id="time-end"> 6:30 AM </span>
+            </div>
+            <div id="timer">
+                2:30:00
+            </div>
+            <div id="counter">
+
+            </div>
+        </div>
+        <div id="spacer">
+        </div>
+        <button id="sold"> Sold </button>
+        <div id="spacer2"></div>
+        <button id="reset"> Reset </button>
+    </div>
+
+    <script>
+        const DURATION = 2.5 * 60 * 60 * 1000;
+        //const DURATION = 5000;
+        const MS_IN_DAY = 1000 * 60 * 60 * 24;
+        const MS_IN_HOUR = 1000 * 60 * 60;
+        const MS_IN_MINUTE = 1000 * 60;
+        const MS_IN_SECOND = 1000;
+        const INITIAL_TIMER_VALUE = "2:30:00";
+        const INITIAL_COUNTER_VALUE = "";
+        const MAX_30H_SELL = 7;
+        const SELL_WINDOW = 30 * MS_IN_HOUR;
+        //const SELL_WINDOW = 150 * MS_IN_SECOND;
+        //const SELL_WINDOW = 50 * MS_IN_SECOND;
+        let canNotify = false;
+        // Let's check if the browser supports notifications
+        if (!("Notification" in window)) {
+            alert("This browser does not support desktop notification");
+        }
+
+        // Let's check whether notification permissions have already been granted
+        else if (Notification.permission === "granted") {
+            canNotify = true;
+        }
+
+        // Otherwise, we need to ask the user for permission
+        else if (Notification.permission !== "denied") {
+            Notification.requestPermission().then(function (permission) {
+                // If the user accepts, let's create a notification
+                if (permission === "granted") {
+                    canNotify = true;
+                }
+            });
+        }
+        let timeEnd = document.querySelector("span#time-end");
+        let startTimes = getStartTimes();
+        let counterDiv = document.querySelector("div#counter");
+        counterDiv.textContent = startTimes.length;
+        let resetButton = document.querySelector("button#reset");
+        resetButton.addEventListener("click", () => {
+            window.localStorage.clear();
+            startTimes = [];
+            updateRender();
+        });
+        let soldButton = document.querySelector("button#sold");
+        soldButton.addEventListener("click", () => {
+            startTimes.push(new Date());
+            setStartTimes(startTimes);
+            counterDiv.textContent = startTimes.length;
+            soldButton.disabled = true;
+        });
+        let timerDiv = document.querySelector("div#timer");
+
+        updateRender();
+        window.setInterval(updateRender, 1000);
+
+        function getStartTimes() {
+            let rawList = JSON.parse(window.localStorage.getItem("startTimes"));
+            if (!rawList) {
+                return [];
+            }
+            let listOfDates = rawList.map(value => new Date(value));
+            console.log(listOfDates);
+            return listOfDates;
+        }
+
+        function setStartTimes(value) {
+            window.localStorage.setItem("startTimes", JSON.stringify(startTimes));
+        }
+
+        function updateRender() {
+            while (true) {
+                let earliestSold = startTimes[0];
+                let windowElapsed = SELL_WINDOW - (new Date() - earliestSold);
+                if (windowElapsed <= 0) {
+                    startTimes.shift();
+                    setStartTimes(startTimes);
+                    continue;
+                }
+                break;
+            }
+            let mostRecentSold;
+            if (startTimes.length == 0) {
+                mostRecentSold = new Date(0);
+            } else {
+                mostRecentSold = startTimes[startTimes.length - 1];
+            }
+            let elapsed = DURATION - (new Date() - mostRecentSold);
+            if (elapsed <= 0) {
+                if (startTimes.length >= MAX_30H_SELL) {
+                    soldButton.disabled = true;
+                    timeEnd.textContent = toTime(startTimes[0], SELL_WINDOW);
+                    return;
+                }
+                enableSoldButton();
+                timeEnd.textContent = toTime(new Date(), DURATION);
+                return;
+            } else {
+                soldButton.disabled = true;
+            }
+            let hours = Math.floor((elapsed % MS_IN_DAY) / MS_IN_HOUR);
+            let minutes = Math.floor(((elapsed % MS_IN_DAY) % MS_IN_HOUR) / MS_IN_MINUTE);
+            let seconds = Math.floor((((elapsed % MS_IN_DAY) % MS_IN_HOUR) % MS_IN_MINUTE) / MS_IN_SECOND);
+            timerDiv.textContent = `${hours}:${padTime(minutes)}:${padTime(seconds)}`;
+            timeEnd.textContent = toTime(mostRecentSold, DURATION);
+
+        }
+
+        function padTime(time) {
+            if (time > 10)
+                return time;
+            return `0${time}`;
+        }
+        function toTime(date, duration) {
+            let time = new Date(+ date + duration);
+            let minutes = time.getMinutes();
+            let hours = time.getHours();
+            let ampm = "AM";
+            if (hours > 12) {
+                hours = hours - 12;
+                ampm = "PM"
+            } else if (hours == 0) {
+                hours = 12;
+            }
+            return `${hours}:${padTime(minutes)} ${ampm}`;
+
+        }
+
+        function notify() {
+            new Notification("Time to sell a car")
+        }
+
+        function enableSoldButton() {
+            if (soldButton.disabled == true) {
+                notify();
+            }
+            soldButton.disabled = false;
+            timerDiv.textContent = INITIAL_TIMER_VALUE;
+            counterDiv.textContent = startTimes.length;
+        }
+
+    </script>
+
+
+</body>
+
+</html>

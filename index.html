@@ -1,222 +1,235 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta name="description" content="Webpage description goes here" />
-    <meta charset="utf-8">
-    <title>GTA Car Tracker</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="">
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
-    <style>
-        button {
-            background-color: rgb(61, 255, 255);
-            padding: 10px 30px;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nic Glazkov - projects</title>
+<meta name="description" content="Building software about the physical world: live road conditions for 38 states, outage alerts, snow and chain controls, broadband tracking, and Mac utilities.">
+<meta property="og:title" content="Nic Glazkov - projects">
+<meta property="og:description" content="Building software about the physical world. Most of these are live. Try one.">
+<meta property="og:url" content="https://nicglazkov.github.io/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fafaf7;
+    --card: #ffffff;
+    --ink: #17201b;
+    --muted: #5f6a63;
+    --sign: #1e6b47;
+    --sign-deep: #145235;
+    --amber: #b9770e;
+    --line: #e3e6e1;
+    --live: #1e9e5a;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Overpass", -apple-system, "Segoe UI", sans-serif;
+    font-size: 16.5px;
+    line-height: 1.55;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px; }
 
-        }
+  /* header */
+  header { padding: 64px 0 20px; }
+  .name { font-size: 44px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.05; }
+  .thesis { font-size: 21px; font-weight: 600; margin-top: 10px; color: var(--sign-deep); }
+  .sub { color: var(--muted); margin-top: 8px; max-width: 56ch; }
+  .hlinks { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .hlinks a {
+    font-family: "Overpass Mono", monospace; font-size: 13.5px; text-decoration: none;
+    border: 1.5px solid var(--line); background: var(--card); color: var(--ink);
+    padding: 7px 14px 5px; border-radius: 8px;
+  }
+  .hlinks a:hover, .hlinks a:focus-visible { border-color: var(--sign); color: var(--sign-deep); }
 
-        div#box {
-            background-color: rgb(173, 173, 190);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 10px 0px;
-        }
+  /* guide-sign section chips */
+  .signhead { display: flex; align-items: center; gap: 14px; margin: 44px 0 18px; }
+  .chip {
+    background: var(--sign); color: #fff; font-weight: 700; font-size: 15px;
+    letter-spacing: 0.02em; padding: 8px 16px 5px; border-radius: 9px;
+    border: 2px solid #fff; outline: 1.5px solid var(--sign);
+    box-shadow: 0 1px 2px rgba(20, 40, 30, .18);
+  }
+  .signhead .rule { flex: 1; height: 1.5px; background: var(--line); }
+  .signhead .count { font-family: "Overpass Mono", monospace; font-size: 12.5px; color: var(--muted); }
 
-        button#reset {
-            background-color: crimson;
-            color: rgb(255, 255, 255)
-        }
+  /* grid */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card {
+    grid-column: span 1; display: flex; flex-direction: column;
+    background: var(--card); border: 1.5px solid var(--line); border-radius: 14px;
+    overflow: hidden; text-decoration: none;
+    transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
+  }
+  .card.wide { grid-column: span 2; }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-2px); border-color: var(--sign);
+    box-shadow: 0 6px 18px rgba(20, 40, 30, .08);
+  }
+  @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
+  .shot { aspect-ratio: 1200 / 630; width: 100%; object-fit: cover; background: #eceee9; border-bottom: 1.5px solid var(--line); }
+  .card.wide .shot { aspect-ratio: 1200 / 420; object-position: center; }
+  .body { padding: 16px 18px 15px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+  .title-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .title { font-size: 19px; font-weight: 700; }
+  .status {
+    font-family: "Overpass Mono", monospace; font-size: 11.5px; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 6px; margin-left: auto; white-space: nowrap;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
+  .dot.on { animation: pulse 2.2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .dot.on { animation: none; } }
+  .desc { color: var(--muted); font-size: 15px; }
+  .meta { margin-top: auto; padding-top: 6px; font-family: "Overpass Mono", monospace; font-size: 12.5px; color: var(--sign-deep); }
+  .amber { color: var(--amber); }
 
-        div#timer {
-            font-size: 40px;
-            font-family: Arial, Helvetica, sans-serif;
-        }
+  footer {
+    margin: 56px 0 40px; padding-top: 18px; border-top: 1.5px solid var(--line);
+    color: var(--muted); font-size: 14px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between;
+  }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--ink); }
 
-        div#page {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background-color: rgb(255, 255, 255);
-        }
-
-        div#spacer {
-            padding: 5%;
-        }
-
-        div#spacer2 {
-            padding-top: 20%;
-        }
-
-        div#counter {}
-    </style>
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 1fr; }
+    .card.wide { grid-column: span 1; }
+    .card.wide .shot { aspect-ratio: 1200 / 630; }
+    .name { font-size: 34px; }
+    header { padding-top: 44px; }
+  }
+  :focus-visible { outline: 2.5px solid var(--sign); outline-offset: 2px; border-radius: 4px; }
+</style>
 </head>
-
 <body>
-    <div id="page">
-        <div id="box">
-            <div id="time-end-box">
-                You will be able to sell the next car at <span id="time-end"> 6:30 AM </span>
-            </div>
-            <div id="timer">
-                2:30:00
-            </div>
-            <div id="counter">
+<div class="wrap">
 
-            </div>
-        </div>
-        <div id="spacer">
-        </div>
-        <button id="sold"> Sold </button>
-        <div id="spacer2"></div>
-        <button id="reset"> Reset </button>
+<header>
+  <h1 class="name">Nic Glazkov</h1>
+  <p class="thesis">Building software about the physical world.</p>
+  <p class="sub">CS student at Santa Clara University. Most of these are live. Try one.</p>
+  <nav class="hlinks" aria-label="Profiles">
+    <a href="https://github.com/nicglazkov">github.com/nicglazkov</a>
+    <a href="https://www.linkedin.com/in/nicholas-glazkov">linkedin</a>
+  </nav>
+</header>
+
+<div class="signhead"><span class="chip">Live services</span><span class="rule"></span><span class="count">3</span></div>
+<div class="grid">
+  <a class="card wide" href="https://commutescout.com">
+    <img class="shot" src="https://commutescout.com/static/shots/og.png" alt="CommuteScout: live road conditions map" loading="eager">
+    <div class="body">
+      <div class="title-row"><span class="title">commutescout</span><span class="status"><span class="dot on"></span>live · 38 states</span></div>
+      <p class="desc">Live road conditions for 38 US states: map, route planner, toll pricing, and an AI assistant. Also an MCP server, so your assistant can use it too.</p>
+      <span class="meta">commutescout.com</span>
     </div>
+  </a>
+  <a class="card" href="https://getfiberwatch.com">
+    <img class="shot" src="https://getfiberwatch.com/brand/og.png" alt="fiberwatch: know when better internet reaches your address" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">fiberwatch</span><span class="status"><span class="dot on"></span>live</span></div>
+      <p class="desc">Type any US address, see every ISP that files coverage there, and get an email when something better arrives. Built on 49 million FCC records.</p>
+      <span class="meta">getfiberwatch.com</span>
+    </div>
+  </a>
+  <a class="card" href="https://github.com/nicglazkov/outagewatch">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/nicglazkov/outagewatch" alt="outagewatch repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">outagewatch</span><span class="status"><span class="dot on"></span>live</span></div>
+      <p class="desc">PG&amp;E outage alerts with live restoration estimates. Know before the lights go out.</p>
+      <span class="meta">iPhone (TestFlight) · Android APK</span>
+    </div>
+  </a>
+</div>
 
-    <script>
-        const DURATION = 2.5 * 60 * 60 * 1000;
-        //const DURATION = 5000;
-        const MS_IN_DAY = 1000 * 60 * 60 * 24;
-        const MS_IN_HOUR = 1000 * 60 * 60;
-        const MS_IN_MINUTE = 1000 * 60;
-        const MS_IN_SECOND = 1000;
-        const INITIAL_TIMER_VALUE = "2:30:00";
-        const INITIAL_COUNTER_VALUE = "";
-        const MAX_30H_SELL = 7;
-        const SELL_WINDOW = 30 * MS_IN_HOUR;
-        //const SELL_WINDOW = 150 * MS_IN_SECOND;
-        //const SELL_WINDOW = 50 * MS_IN_SECOND;
-        let canNotify = false;
-        // Let's check if the browser supports notifications
-        if (!("Notification" in window)) {
-            alert("This browser does not support desktop notification");
-        }
+<div class="signhead"><span class="chip">Apps</span><span class="rule"></span><span class="count">3</span></div>
+<div class="grid">
+  <a class="card" href="https://github.com/nicglazkov/chaincheck">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/nicglazkov/chaincheck" alt="chaincheck repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">chaincheck</span><span class="status"><span class="amber">R-2 season: Nov</span></span></div>
+      <p class="desc">Tahoe winter driving in one app: live chain controls, closures, pass weather, and resort snow.</p>
+      <span class="meta">iPhone (TestFlight) · Android APK</span>
+    </div>
+  </a>
+  <a class="card" href="https://github.com/nicglazkov/brake-bedding">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/nicglazkov/brake-bedding" alt="brake-bedding repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">brake-bedding</span></div>
+      <p class="desc">A brake bedding coach with live GPS speed cues. No network permission, no ads, no tracking.</p>
+      <span class="meta">iPhone (TestFlight) · Android APK</span>
+    </div>
+  </a>
+  <a class="card" href="https://github.com/nicglazkov/highway-radar-sabre-plus">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/nicglazkov/highway-radar-sabre-plus" alt="highway-radar-sabre-plus repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">highway-radar-sabre-plus</span></div>
+      <p class="desc">Five live data sources on your Highway Radar map: CHP, Waze, Caltrans closures, wildfires, chain controls.</p>
+      <span class="meta">Android APK · 130+ downloads</span>
+    </div>
+  </a>
+</div>
 
-        // Let's check whether notification permissions have already been granted
-        else if (Notification.permission === "granted") {
-            canNotify = true;
-        }
+<div class="signhead"><span class="chip">Mac utilities</span><span class="rule"></span><span class="count">3</span></div>
+<div class="grid">
+  <a class="card" href="https://github.com/nicglazkov/overhang">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/nicglazkov/overhang" alt="overhang repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">overhang</span></div>
+      <p class="desc">Recovers the menu bar icons macOS hides behind the notch. Under 2 MB, no private APIs.</p>
+      <span class="meta">brew install nicglazkov/tap/overhang</span>
+    </div>
+  </a>
+  <a class="card" href="https://github.com/nicglazkov/jotbay">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/nicglazkov/jotbay" alt="jotbay repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">jotbay</span></div>
+      <p class="desc">Keeps a folder of markdown notes in sync across every machine you use, through a git repository you own.</p>
+      <span class="meta">macOS · Windows · Linux</span>
+    </div>
+  </a>
+  <a class="card" href="https://github.com/nicglazkov/pixel-audio-bridge">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/nicglazkov/pixel-audio-bridge" alt="pixel-audio-bridge repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">pixel-audio-bridge</span></div>
+      <p class="desc">Hear your Android phone through the headphones connected to your Mac. 191 ms wired, measured.</p>
+      <span class="meta">brew install nicglazkov/tap/pixel-audio-bridge</span>
+    </div>
+  </a>
+</div>
 
-        // Otherwise, we need to ask the user for permission
-        else if (Notification.permission !== "denied") {
-            Notification.requestPermission().then(function (permission) {
-                // If the user accepts, let's create a notification
-                if (permission === "granted") {
-                    canNotify = true;
-                }
-            });
-        }
-        let timeEnd = document.querySelector("span#time-end");
-        let startTimes = getStartTimes();
-        let counterDiv = document.querySelector("div#counter");
-        counterDiv.textContent = startTimes.length;
-        let resetButton = document.querySelector("button#reset");
-        resetButton.addEventListener("click", () => {
-            window.localStorage.clear();
-            startTimes = [];
-            updateRender();
-        });
-        let soldButton = document.querySelector("button#sold");
-        soldButton.addEventListener("click", () => {
-            startTimes.push(new Date());
-            setStartTimes(startTimes);
-            counterDiv.textContent = startTimes.length;
-            soldButton.disabled = true;
-        });
-        let timerDiv = document.querySelector("div#timer");
+<div class="signhead"><span class="chip">Longer-running</span><span class="rule"></span><span class="count">2</span></div>
+<div class="grid">
+  <a class="card" href="https://chalkboard.studio">
+    <img class="shot" src="https://chalkboard.studio/og-image.png" alt="Chalkboard: narrated math animations" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">Chalkboard</span><span class="status"><span class="dot on"></span>hosted beta</span></div>
+      <p class="desc">Turns any topic into a narrated math animation. Open source; the hosted version runs in private beta.</p>
+      <span class="meta">chalkboard.studio</span>
+    </div>
+  </a>
+  <a class="card" href="https://github.com/FH-EngineeringClub/UR10_Workspace">
+    <img class="shot" src="https://opengraph.githubassets.com/nic1/FH-EngineeringClub/UR10_Workspace" alt="UR10 chess robot repository" loading="lazy">
+    <div class="body">
+      <div class="title-row"><span class="title">UR10 chess robot</span></div>
+      <p class="desc">A written-off industrial arm we rebuilt to play chess. It has not lost to a human yet.</p>
+      <span class="meta">Foothill Engineering Club</span>
+    </div>
+  </a>
+</div>
 
-        updateRender();
-        window.setInterval(updateRender, 1000);
+<footer>
+  <span>Interim page; a proper one is on the way. Everything above ships with tests, and the parts you have to trust ship with published evals.</span>
+  <a href="/gta/">older: GTA car tracker</a>
+</footer>
 
-        function getStartTimes() {
-            let rawList = JSON.parse(window.localStorage.getItem("startTimes"));
-            if (!rawList) {
-                return [];
-            }
-            let listOfDates = rawList.map(value => new Date(value));
-            console.log(listOfDates);
-            return listOfDates;
-        }
-
-        function setStartTimes(value) {
-            window.localStorage.setItem("startTimes", JSON.stringify(startTimes));
-        }
-
-        function updateRender() {
-            while (true) {
-                let earliestSold = startTimes[0];
-                let windowElapsed = SELL_WINDOW - (new Date() - earliestSold);
-                if (windowElapsed <= 0) {
-                    startTimes.shift();
-                    setStartTimes(startTimes);
-                    continue;
-                }
-                break;
-            }
-            let mostRecentSold;
-            if (startTimes.length == 0) {
-                mostRecentSold = new Date(0);
-            } else {
-                mostRecentSold = startTimes[startTimes.length - 1];
-            }
-            let elapsed = DURATION - (new Date() - mostRecentSold);
-            if (elapsed <= 0) {
-                if (startTimes.length >= MAX_30H_SELL) {
-                    soldButton.disabled = true;
-                    timeEnd.textContent = toTime(startTimes[0], SELL_WINDOW);
-                    return;
-                }
-                enableSoldButton();
-                timeEnd.textContent = toTime(new Date(), DURATION);
-                return;
-            } else {
-                soldButton.disabled = true;
-            }
-            let hours = Math.floor((elapsed % MS_IN_DAY) / MS_IN_HOUR);
-            let minutes = Math.floor(((elapsed % MS_IN_DAY) % MS_IN_HOUR) / MS_IN_MINUTE);
-            let seconds = Math.floor((((elapsed % MS_IN_DAY) % MS_IN_HOUR) % MS_IN_MINUTE) / MS_IN_SECOND);
-            timerDiv.textContent = `${hours}:${padTime(minutes)}:${padTime(seconds)}`;
-            timeEnd.textContent = toTime(mostRecentSold, DURATION);
-
-        }
-
-        function padTime(time) {
-            if (time > 10)
-                return time;
-            return `0${time}`;
-        }
-        function toTime(date, duration) {
-            let time = new Date(+ date + duration);
-            let minutes = time.getMinutes();
-            let hours = time.getHours();
-            let ampm = "AM";
-            if (hours > 12) {
-                hours = hours - 12;
-                ampm = "PM"
-            } else if (hours == 0) {
-                hours = 12;
-            }
-            return `${hours}:${padTime(minutes)} ${ampm}`;
-
-        }
-
-        function notify() {
-            new Notification("Time to sell a car")
-        }
-
-        function enableSoldButton() {
-            if (soldButton.disabled == true) {
-                notify();
-            }
-            soldButton.disabled = false;
-            timerDiv.textContent = INITIAL_TIMER_VALUE;
-            counterDiv.textContent = startTimes.length;
-        }
-
-    </script>
-
-
+</div>
 </body>
-
 </html>
