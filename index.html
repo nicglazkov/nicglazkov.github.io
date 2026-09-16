@@ -1,286 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nic Glazkov - projects</title>
-<meta name="description" content="Building software about the physical world: live road conditions across 37 states, power outage alerts, chain controls, broadband availability, and desktop utilities.">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Nic Glazkov - projects</title>
+<meta name="description" content="Live road conditions across 37 states, broadband availability built on 49 million FCC records, power outage alerts, and a handful of desktop utilities. Most of it is live.">
 <meta property="og:title" content="Nic Glazkov - projects">
 <meta property="og:description" content="Building software about the physical world. Most of these are live. Try one.">
 <meta property="og:url" content="https://nicglazkov.github.io/">
 <meta property="og:type" content="website">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231e6b47'/%3E%3Cpath d='M9 22V10h3.2l6 8.1V10H21v12h-3.1l-6.1-8.2V22z' fill='%23fff'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --paper: #fafaf7;
-    --card: #ffffff;
-    --ink: #17201b;
-    --muted: #5f6a63;
-    --sign: #1e6b47;
-    --sign-deep: #145235;
-    --amber: #b9770e;
-    --line: #e3e6e1;
-    --live: #1e9e5a;
-    --shot-bg: #eceee9;
-    --shadow: rgba(20, 40, 30, .08);
-    --chip-edge: #ffffff;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --paper: #111512;
-      --card: #171d19;
-      --ink: #e8ece9;
-      --muted: #9aa8a0;
-      --sign: #3f9e71;
-      --sign-deep: #7fc9a4;
-      --amber: #d9992f;
-      --line: #28312c;
-      --live: #43c483;
-      --shot-bg: #1e251f;
-      --shadow: rgba(0, 0, 0, .45);
-      --chip-edge: #171d19;
-    }
-  }
-  * { box-sizing: border-box; margin: 0; }
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: "Overpass", -apple-system, "Segoe UI", sans-serif;
-    font-size: 16.5px;
-    line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: inherit; }
-  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 22px; }
+<meta property="og:image" content="https://nicglazkov.github.io/assets/cs-hero-map.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23181a18'/%3E%3Cpath d='M9 22V10h3.2l6 8.1V10H21v12h-3.1l-6.1-8.2V22z' fill='%23fff'/%3E%3C/svg%3E"><style>
+*{box-sizing:border-box;margin:0}
+img{display:block;width:100%;height:100%;object-fit:cover}
+a{text-decoration:none;color:inherit}
+body{-webkit-font-smoothing:antialiased;font:16px/1.6 -apple-system,'Segoe UI',Helvetica,Arial,sans-serif}
+.w{max-width:1120px;margin:0 auto;padding:0 30px}
 
-  /* header */
-  header { padding: 64px 0 20px; }
-  .name { font-size: 44px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.05; }
-  .thesis { font-size: 21px; font-weight: 600; margin-top: 10px; color: var(--sign-deep); }
-  .sub { color: var(--muted); margin-top: 8px; max-width: 56ch; }
-  .hlinks { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .hlinks a {
-    font-family: "Overpass Mono", monospace; font-size: 13.5px; text-decoration: none;
-    border: 1.5px solid var(--line); background: var(--card); color: var(--ink);
-    padding: 7px 14px 5px; border-radius: 8px;
-    transition: border-color .14s ease, color .14s ease;
-  }
-  .hlinks a:hover, .hlinks a:focus-visible { border-color: var(--sign); color: var(--sign-deep); }
+header{padding:70px 0 30px}
+header h1{font-size:24px;font-weight:650;letter-spacing:-.025em;color:#181a18}
+header .tag{color:#61665f;margin-top:6px;max-width:60ch;font-size:16px}
+.links{margin-top:22px;display:flex;gap:10px}
+.links a{font-size:13.5px;color:#181a18;border:1px solid #e0e0d8;background:#fff;border-radius:8px;padding:8px 15px}
+.links a:hover{border-color:#181a18}
 
-  /* stat strip */
-  .stats {
-    margin-top: 26px; display: flex; flex-wrap: wrap; gap: 0;
-    border: 1.5px solid var(--line); border-radius: 12px; background: var(--card); overflow: hidden;
-  }
-  .stat { flex: 1 1 0; min-width: 150px; padding: 14px 18px 12px; border-right: 1.5px solid var(--line); }
-  .stat:last-child { border-right: 0; }
-  .stat b { display: block; font-size: 22px; font-weight: 800; letter-spacing: -0.3px; }
-  .stat span { font-family: "Overpass Mono", monospace; font-size: 12px; color: var(--muted); }
+body{background:#fafaf8;color:#181a18}
+.hero{display:block;margin-top:4px;border-radius:16px;overflow:hidden;border:1px solid #e6e6de;background:#fff}
+.hero .ph{aspect-ratio:2/1;background:#eef1f5}
+.hero .ph img{object-position:center top}
+.hero .in{padding:24px 28px 26px;border-top:1px solid #f0f0e8}
+.hero h3{font-size:22px;font-weight:650;letter-spacing:-.015em}
+.hero p{color:#61665f;margin-top:9px;max-width:80ch;font-size:15.5px}
+.hero .meta{margin-top:15px;font-size:12.5px;color:#9b9f97}
+.hero .flag{display:inline-block;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:#9b9f97;margin-bottom:9px}
+.hero:hover{border-color:#c8c8bc}
+h2{font-size:12px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;color:#9b9f97;
+   margin:44px 0 15px;padding-bottom:11px;border-bottom:1px solid #e6e6de}
+.g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.c{border:1px solid #e6e6de;border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.c .ph{aspect-ratio:16/9;border-bottom:1px solid #f0f0e8}
+.c .in{padding:15px 17px 17px;display:flex;flex-direction:column;flex:1}
+.c h3{font-size:15.5px;font-weight:650}
+.c p{color:#61665f;font-size:13.8px;margin-top:6px;line-height:1.52}
+.c .meta{margin-top:auto;padding-top:12px;font-size:11.5px;color:#9b9f97}
+.c:hover{border-color:#c8c8bc}
+footer{margin:60px 0 60px;padding-top:20px;border-top:1px solid #e6e6de;color:#9b9f97;font-size:13.5px}
+@media(max-width:900px){.g{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.g{grid-template-columns:1fr}.hero .ph{aspect-ratio:16/10}}
 
-  /* guide-sign section chips */
-  .signhead { display: flex; align-items: center; gap: 14px; margin: 44px 0 18px; }
-  .chip {
-    background: var(--sign); color: #fff; font-weight: 700; font-size: 15px;
-    letter-spacing: 0.02em; padding: 8px 16px 5px; border-radius: 9px;
-    border: 2px solid var(--chip-edge); outline: 1.5px solid var(--sign);
-    box-shadow: 0 1px 2px var(--shadow);
-  }
-  .signhead .rule { flex: 1; height: 1.5px; background: var(--line); }
-  .signhead .count { font-family: "Overpass Mono", monospace; font-size: 12.5px; color: var(--muted); }
-
-  /* grid */
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-  .card {
-    grid-column: span 1; display: flex; flex-direction: column;
-    background: var(--card); border: 1.5px solid var(--line); border-radius: 14px;
-    overflow: hidden; text-decoration: none;
-    transition: transform .14s ease, border-color .14s ease, box-shadow .14s ease;
-  }
-  .card.wide { grid-column: span 2; }
-  .card:hover, .card:focus-visible {
-    transform: translateY(-2px); border-color: var(--sign);
-    box-shadow: 0 6px 18px var(--shadow);
-  }
-  @media (prefers-reduced-motion: reduce) { .card { transition: none; } .card:hover { transform: none; } }
-  .shot { aspect-ratio: 1200 / 630; width: 100%; object-fit: cover; background: var(--shot-bg); border-bottom: 1.5px solid var(--line); }
-  .card.wide .shot { aspect-ratio: 1200 / 525; object-position: center top; }
-  .body { padding: 16px 18px 15px; display: flex; flex-direction: column; gap: 7px; flex: 1; }
-  .title-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-  .title { font-size: 19px; font-weight: 700; }
-  .status {
-    font-family: "Overpass Mono", monospace; font-size: 11.5px; color: var(--muted);
-    display: inline-flex; align-items: center; gap: 6px; margin-left: auto; white-space: nowrap;
-  }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; }
-  .dot.quiet { background: var(--muted); }
-  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .35 } }
-  .dot.on { animation: pulse 2.2s ease-in-out infinite; }
-  @media (prefers-reduced-motion: reduce) { .dot.on { animation: none; } }
-  .desc { color: var(--muted); font-size: 15px; }
-  .meta { margin-top: auto; padding-top: 6px; font-family: "Overpass Mono", monospace; font-size: 12.5px; color: var(--sign-deep); }
-  .amber { color: var(--amber); }
-
-  footer {
-    margin: 56px 0 40px; padding-top: 18px; border-top: 1.5px solid var(--line);
-    color: var(--muted); font-size: 14px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: space-between;
-  }
-  footer a { color: var(--muted); }
-  footer a:hover { color: var(--ink); }
-
-  @media (max-width: 720px) {
-    .grid { grid-template-columns: 1fr; }
-    .card.wide { grid-column: span 1; }
-    .card.wide .shot { aspect-ratio: 1200 / 630; object-position: center top; }
-    .name { font-size: 34px; }
-    header { padding-top: 44px; }
-    .stat { border-right: 0; border-bottom: 1.5px solid var(--line); }
-    .stat:last-child { border-bottom: 0; }
-  }
-  :focus-visible { outline: 2.5px solid var(--sign); outline-offset: 2px; border-radius: 4px; }
-</style>
-</head>
-<body>
-<div class="wrap">
-
-<header>
-  <h1 class="name">Nic Glazkov</h1>
-  <p class="thesis">Building software about the physical world.</p>
-  <p class="sub">CS student at Santa Clara University. Most of these are live. Try one.</p>
-  <nav class="hlinks" aria-label="Profiles">
-    <a href="https://github.com/nicglazkov">github.com/nicglazkov</a>
-    <a href="https://www.linkedin.com/in/nicholas-glazkov">linkedin</a>
-  </nav>
-  <div class="stats">
-    <div class="stat"><b>37</b><span>states of live road data</span></div>
-    <div class="stat"><b>53</b><span>official agency feeds</span></div>
-    <div class="stat"><b>49.1M</b><span>FCC records indexed</span></div>
-    <div class="stat"><b>12</b><span>projects shipped</span></div>
-  </div>
-</header>
-
-<div class="signhead"><span class="chip">Live services</span><span class="rule"></span><span class="count">3</span></div>
-<div class="grid">
-  <a class="card wide" href="https://commutescout.com">
-    <img class="shot" src="shots/commutescout.png" alt="CommuteScout: live road conditions across 37 states" loading="eager">
-    <div class="body">
-      <div class="title-row"><span class="title">commutescout</span><span class="status"><span class="dot on"></span>live · 37 states</span></div>
-      <p class="desc">Live road conditions from 53 official agency feeds: incidents, closures, chain controls, roughly 18,000 traffic cameras, wildfire perimeters, and toll pricing. Map, route planner, and an assistant you can ask about a drive. Also an MCP server, so your assistant can use the same data.</p>
-      <span class="meta">commutescout.com</span>
-    </div>
-  </a>
-  <a class="card" href="https://getfiberwatch.com">
-    <img class="shot" src="https://getfiberwatch.com/brand/og.png" alt="fiberwatch: know when better internet reaches your address" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">fiberwatch</span><span class="status"><span class="dot on"></span>live</span></div>
-      <p class="desc">Type any US address, see every ISP that files coverage there, and get an email when something better arrives. Built on 49.1 million FCC records covering 2,067 providers.</p>
-      <span class="meta">getfiberwatch.com</span>
-    </div>
-  </a>
-  <a class="card" href="https://github.com/nicglazkov/outagewatch">
-    <img class="shot" src="shots/outagewatch.svg" alt="outagewatch" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">outagewatch</span><span class="status"><span class="dot on"></span>live</span></div>
-      <p class="desc">PG&amp;E outage alerts with live restoration estimates. Know before the lights go out.</p>
-      <span class="meta">iPhone (TestFlight) · Android APK · Web</span>
-    </div>
-  </a>
-</div>
-
-<div class="signhead"><span class="chip">Apps</span><span class="rule"></span><span class="count">3</span></div>
-<div class="grid">
-  <a class="card" href="https://github.com/nicglazkov/chaincheck">
-    <img class="shot" src="shots/chaincheck.svg" alt="chaincheck" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">chaincheck</span><span class="status"><span class="amber">chain season: Nov</span></span></div>
-      <p class="desc">Tahoe winter driving in one app: live chain controls, closures, pass weather, and resort snow. The chain rules are tested code, not prose.</p>
-      <span class="meta">iPhone (TestFlight) · Android APK</span>
-    </div>
-  </a>
-  <a class="card" href="https://github.com/nicglazkov/brake-bedding">
-    <img class="shot" src="shots/brake-bedding.svg" alt="brake-bedding" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">brake-bedding</span></div>
-      <p class="desc">A brake bedding coach with live GPS speed cues. No network permission, no ads, no tracking.</p>
-      <span class="meta">iPhone (TestFlight) · Android APK</span>
-    </div>
-  </a>
-  <a class="card" href="https://github.com/nicglazkov/highway-radar-sabre-plus">
-    <img class="shot" src="shots/sabre-plus.svg" alt="highway-radar-sabre-plus" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">highway-radar-sabre-plus</span></div>
-      <p class="desc">Five live data sources on your Highway Radar map: CHP, Waze, Caltrans closures, wildfires, chain controls.</p>
-      <span class="meta">Android APK · 260+ downloads</span>
-    </div>
-  </a>
-</div>
-
-<div class="signhead"><span class="chip">Desktop utilities</span><span class="rule"></span><span class="count">4</span></div>
-<div class="grid">
-  <a class="card" href="https://github.com/nicglazkov/jotbay">
-    <img class="shot" src="shots/jotbay.svg" alt="jotbay" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">jotbay</span></div>
-      <p class="desc">Keeps a folder of markdown notes in sync across every machine you use, through a git repository you own.</p>
-      <span class="meta">macOS · Windows · Linux · 150+ downloads</span>
-    </div>
-  </a>
-  <a class="card" href="https://github.com/nicglazkov/gcloud-dot">
-    <img class="shot" src="shots/gcloud-dot.svg" alt="gcloud-dot" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">gcloud-dot</span></div>
-      <p class="desc">Know before your gcloud session expires, not after your next command fails. A menu bar dot that measures it and learns how long your sessions last.</p>
-      <span class="meta">macOS · Windows · Linux · 140+ downloads</span>
-    </div>
-  </a>
-  <a class="card" href="https://github.com/nicglazkov/overhang">
-    <img class="shot" src="shots/overhang.svg" alt="overhang" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">overhang</span></div>
-      <p class="desc">Recovers the menu bar icons macOS hides behind the notch. Under 2 MB, no private APIs, and it asks for no permissions at all.</p>
-      <span class="meta">brew install nicglazkov/tap/overhang</span>
-    </div>
-  </a>
-  <a class="card" href="https://github.com/nicglazkov/pixel-audio-bridge">
-    <img class="shot" src="shots/pixel-audio-bridge.svg" alt="pixel-audio-bridge" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">pixel-audio-bridge</span></div>
-      <p class="desc">Hear your Android phone through the headphones connected to your Mac. About 20 ms of buffering on the wired path; anything past that is your headphones, and the app says which is which.</p>
-      <span class="meta">brew install nicglazkov/tap/pixel-audio-bridge</span>
-    </div>
-  </a>
-</div>
-
-<div class="signhead"><span class="chip">Longer-running</span><span class="rule"></span><span class="count">2</span></div>
-<div class="grid">
-  <a class="card" href="https://chalkboard.studio">
-    <img class="shot" src="https://chalkboard.studio/og-image.png" alt="Chalkboard: narrated math animations" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">Chalkboard</span><span class="status"><span class="dot quiet"></span>private beta</span></div>
-      <p class="desc">Turns any topic into a narrated math animation through a pipeline of agents that draft, fact-check, animate, and render it. Open source; the hosted version is invite-only with a waitlist.</p>
-      <span class="meta">chalkboard.studio</span>
-    </div>
-  </a>
-  <a class="card" href="https://github.com/FH-EngineeringClub/UR10_Workspace">
-    <img class="shot" src="shots/ur10-chess.svg" alt="UR10 chess robot" loading="lazy">
-    <div class="body">
-      <div class="title-row"><span class="title">UR10 chess robot</span></div>
-      <p class="desc">A written-off industrial arm we rebuilt to play chess. It has not lost to a human yet.</p>
-      <span class="meta">Foothill Engineering Club</span>
-    </div>
-  </a>
-</div>
-
-<footer>
-  <span>Interim page; a proper one is on the way. Everything above ships with tests, and the parts you have to trust ship with published evals.</span>
-  <a href="/gta/">older: GTA car tracker</a>
-</footer>
-
-</div>
-</body>
-</html>
+footer{display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between;align-items:baseline}
+footer a{color:#9b9f97;border-bottom:1px solid #e0e0d8}
+footer a:hover{color:#181a18;border-color:#181a18}
+:focus-visible{outline:2px solid #181a18;outline-offset:3px;border-radius:5px}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.c,.hero{transition:border-color .15s ease}
+</style></head><body><div class="w"><header><h1>Nic Glazkov</h1><p class="tag">Building software about the physical world. CS student at Santa Clara University. Most of these are live, and I keep them running.</p><div class="links"><a href="https://github.com/nicglazkov">GitHub</a><a href="https://www.linkedin.com/in/nicholas-glazkov">LinkedIn</a></div></header><a class="hero" href="https://commutescout.com"><div class="ph"><img src="assets/cs-hero-map.jpg" alt="commutescout"></div><div class="in"><span class="flag">Featured</span><h3>commutescout</h3><p>Live road conditions from 53 official agency feeds across 37 states: incidents, closures, chain controls, cameras, wildfire perimeters, and toll pricing. Map, route planner, and an assistant you can ask about a drive. Also an MCP server.</p><div class="meta">commutescout.com</div></div></a><h2>Live services</h2><div class="g"><a class="c" href="https://getfiberwatch.com"><div class="ph"><img src="assets/fw-og.jpg" alt="fiberwatch" loading="lazy"></div><div class="in"><h3>fiberwatch</h3><p>Type any US address and see every ISP that files coverage there, then get an email when something better arrives. Built on 49.1 million FCC records covering 2,067 providers.</p><div class="meta">getfiberwatch.com</div></div></a><a class="c" href="https://github.com/nicglazkov/outagewatch"><div class="ph"><img src="assets/ow-social.jpg" alt="outagewatch" loading="lazy"></div><div class="in"><h3>outagewatch</h3><p>PG&amp;E outage alerts with live restoration estimates, and plain-language answers instead of a utility status code.</p><div class="meta">iPhone · Android · Web</div></div></a></div><h2>Apps</h2><div class="g"><a class="c" href="https://github.com/nicglazkov/chaincheck"><div class="ph"><img src="assets/cc-social.jpg" alt="chaincheck" loading="lazy"></div><div class="in"><h3>chaincheck</h3><p>Tahoe winter driving in one app: live chain controls, closures, pass weather, and resort snow. The chain rules are tested code, not prose.</p><div class="meta">iPhone · Android</div></div></a><a class="c" href="https://github.com/nicglazkov/brake-bedding"><div class="ph"><img src="assets/bb-tile.jpg" alt="brake-bedding" loading="lazy"></div><div class="in"><h3>brake-bedding</h3><p>A brake bedding coach that talks you through new pads using live GPS speed. No network permission, no ads, no tracking.</p><div class="meta">iPhone · Android</div></div></a><a class="c" href="https://github.com/nicglazkov/highway-radar-sabre-plus"><div class="ph"><img src="assets/sab-social.jpg" alt="highway-radar-sabre-plus" loading="lazy"></div><div class="in"><h3>highway-radar-sabre-plus</h3><p>Five live road feeds on your Highway Radar map: CHP, Waze, Caltrans closures, wildfires, and chain controls.</p><div class="meta">Android · 260+ downloads</div></div></a></div><h2>Desktop</h2><div class="g"><a class="c" href="https://github.com/nicglazkov/jotbay"><div class="ph"><img src="assets/jb-main.jpg" alt="jotbay" loading="lazy"></div><div class="in"><h3>jotbay</h3><p>Keeps a folder of markdown notes in sync across every machine you use, through a private git repository you own.</p><div class="meta">macOS · Windows · Linux · 150+ downloads</div></div></a><a class="c" href="https://github.com/nicglazkov/gcloud-dot"><div class="ph"><img src="assets/gd-tile.jpg" alt="gcloud-dot" loading="lazy"></div><div class="in"><h3>gcloud-dot</h3><p>Know before your cloud session expires, not after your next command fails. It measures the session and learns how long yours last.</p><div class="meta">macOS · Windows · Linux · 140+ downloads</div></div></a><a class="c" href="https://github.com/nicglazkov/overhang"><div class="ph"><img src="assets/oh-tile.jpg" alt="overhang" loading="lazy"></div><div class="in"><h3>overhang</h3><p>Recovers the menu bar icons macOS hides behind the notch. Under 2 MB, no private APIs, and no permissions at all.</p><div class="meta">macOS</div></div></a><a class="c" href="https://github.com/nicglazkov/pixel-audio-bridge"><div class="ph"><img src="assets/pab-social.jpg" alt="pixel-audio-bridge" loading="lazy"></div><div class="in"><h3>pixel-audio-bridge</h3><p>Hear your Android phone through the headphones already connected to your Mac. Put them on and it starts by itself.</p><div class="meta">macOS</div></div></a></div><h2>Longer-running</h2><div class="g"><a class="c" href="https://chalkboard.studio"><div class="ph"><img src="assets/cb-og.jpg" alt="Chalkboard" loading="lazy"></div><div class="in"><h3>Chalkboard</h3><p>Turns any topic into a narrated explainer video through a pipeline that drafts, fact-checks, animates, and renders it. Open source; the hosted version is invite-only.</p><div class="meta">chalkboard.studio</div></div></a><a class="c" href="https://github.com/FH-EngineeringClub/UR10_Workspace"><div class="ph"><img src="assets/ur10.jpg" alt="UR10 chess robot" loading="lazy"></div><div class="in"><h3>UR10 chess robot</h3><p>A written-off industrial arm that a few of us rebuilt to play chess. It has not lost to a human yet.</p><div class="meta">Foothill Engineering Club</div></div></a></div><footer><span>Interim page. A proper one is on the way.</span><a href="/gta/">older: GTA car tracker</a></footer></div></body></html>
