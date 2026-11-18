@@ -22,42 +22,42 @@
 <link rel="preload" href="fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="console.css">
 <style>
-/* Portfolio only: the project grid. Everything else comes from console.css. */
-.feature{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);text-decoration:none!important;color:var(--fg)}
-.feature .view{border-right:1px solid var(--line)}
-.feature .view img{aspect-ratio:2/1;object-fit:cover;object-position:center top;height:100%}
-.feature .side{padding:26px 26px 22px;display:flex;flex-direction:column;gap:10px}
-.feature .side h2{font-size:24px;letter-spacing:-.02em}
-.feature .side p{color:var(--mut);font-size:15px;margin:0}
-.feature .go{margin-top:auto;padding-top:10px;font:500 12.5px/1 var(--f-mono);color:var(--acc)}
-.feature:hover .go{text-decoration:underline;text-underline-offset:3px}
-.proj{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+/* Portfolio only: the project grid. Everything else comes from console.css.
+   Two columns at every width. An odd card out at the end of a group turns into a wide,
+   horizontal card so no row holds one oversized tile. */
+.proj{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
 .proj a{background:var(--pan);color:var(--fg);text-decoration:none;display:flex;flex-direction:column;min-width:0;transition:background .15s}
-.proj a:hover{background:var(--pan2)}
+.proj a:hover{background:var(--pan2);text-decoration:none}
 .proj .ph{aspect-ratio:16/9;overflow:hidden;border-bottom:1px solid var(--line);background:var(--pan2)}
 .proj .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease)}
 .proj a:hover .ph img{transform:scale(1.02)}
-.proj .in{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
-.proj h3{font-size:16.5px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
-.proj h3 .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 18%,transparent)}
-.proj p{color:var(--mut);font-size:14px;line-height:1.55;margin:6px 0 0}
+.proj .in{padding:18px 20px 18px;display:flex;flex-direction:column;flex:1}
+.proj h3{font-size:17px;letter-spacing:-.01em;display:flex;align-items:center;gap:8px}
+.proj h3 .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px color-mix(in srgb,var(--ok) 18%,transparent);flex:none}
+.proj p{color:var(--mut);font-size:14.5px;line-height:1.55;margin:6px 0 0;max-width:58ch}
 .proj .meta{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 12px;font:400 11.5px/1.4 var(--f-mono);color:var(--faint)}
 .proj .meta .host{color:var(--mut);white-space:nowrap}
-.proj.five{grid-template-columns:repeat(6,minmax(0,1fr))}
-.proj.five>a{grid-column:span 2}
-.proj.five>a:nth-child(n+4){grid-column:span 3}
-.proj.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.proj.two .ph{aspect-ratio:2/1}
 .proj .tall .ph img{object-position:center 30%}
+/* odd one out: spans both columns, image beside the text */
+.proj>a:last-child:nth-child(odd){grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.proj>a:last-child:nth-child(odd) .ph{border-bottom:0;border-right:1px solid var(--line);aspect-ratio:auto;min-height:100%}
+.proj>a:last-child:nth-child(odd) .in{padding:24px 26px}
 .legend{display:flex;gap:16px;align-items:center;font:400 12px/1 var(--f-mono);color:var(--faint);margin:0 0 18px}
 .legend .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ok);margin-right:7px;vertical-align:middle}
 @media (prefers-reduced-motion:reduce){.proj .ph img{transition:none}.proj a:hover .ph img{transform:none}}
-@media (max-width:900px){
-  .feature{grid-template-columns:1fr}.feature .view{border-right:0;border-bottom:1px solid var(--line)}
-  .proj{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .proj.five{grid-template-columns:repeat(2,minmax(0,1fr))}.proj.five>a,.proj.five>a:nth-child(n+4){grid-column:auto}.proj.five>a:first-child{grid-column:span 2}
+/* Phones: still two columns, with compact cards */
+@media (max-width:620px){
+  .proj .ph{aspect-ratio:16/10}
+  .proj .in{padding:10px 11px 12px}
+  .proj h3{font-size:14px;gap:6px;line-height:1.25}
+  .proj h3 .dot{width:5px;height:5px;box-shadow:0 0 0 2px color-mix(in srgb,var(--ok) 18%,transparent)}
+  .proj p{font-size:12.5px;line-height:1.45;margin-top:4px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .proj .meta{padding-top:9px;font-size:10px;gap:2px 8px}
+  .proj .meta .host{white-space:normal;overflow-wrap:anywhere}
+  .proj>a:last-child:nth-child(odd){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .proj>a:last-child:nth-child(odd) .ph{aspect-ratio:16/10;min-height:0;align-self:center;margin:10px 0 10px 10px;border:1px solid var(--line);border-radius:7px}
+  .proj>a:last-child:nth-child(odd) .in{padding:10px 11px 12px}
 }
-@media (max-width:620px){.proj,.proj.two{grid-template-columns:1fr}.proj.five{grid-template-columns:1fr}.proj.five>a:first-child{grid-column:auto}}
 </style>
 </head>
 <body>
@@ -88,24 +88,16 @@
     </div>
   </header>
 
-  <a class="stage feature" href="https://commutescout.com">
-    <div class="view flush"><img src="assets/cs-hero-map.jpg" alt="The CommuteScout map with live incidents, closures and cameras" width="1400" height="700"></div>
-    <div class="side">
-      <span class="label">Featured</span>
-      <h2>CommuteScout</h2>
-      <p>Live road conditions from 53 official agency feeds across 37 states: incidents, closures, chain controls, thousands of live traffic cameras, wildfire perimeters, and toll pricing.</p>
-      <p>Map, route planner, and an assistant you can ask about a drive. The same data is a public REST API and an MCP server, and Flare lets anyone plug in their own alert source.</p>
-      <span class="go">commutescout.com &rarr;</span>
-    </div>
-  </a>
 
   <main>
     <section class="panel" id="live">
       <h2>Live services</h2>
       <p class="legend"><span><span class="dot"></span>live now</span></p>
-      <div class="proj two">
+      <div class="proj">
+        <a href="https://commutescout.com"><div class="ph"><img src="assets/cs-hero-map.jpg" alt="The CommuteScout map with live incidents, closures and cameras" loading="lazy"></div><div class="in"><h3><span class="dot"></span>CommuteScout</h3><p>Live road conditions from 53 official agency feeds across 37 states: incidents, closures, chain controls, live traffic cameras, wildfire perimeters, and toll pricing. Also a public REST API and an MCP server.</p><div class="meta"><span class="host">commutescout.com</span><span>Web · API · MCP</span></div></div></a>
         <a href="https://getfiberwatch.com"><div class="ph"><img src="assets/fw-og.jpg" alt="FiberWatch" loading="lazy"></div><div class="in"><h3><span class="dot"></span>FiberWatch</h3><p>Type any US address and see every ISP that files coverage there, then get an email when something better arrives. Built on 49.1 million FCC records covering 2,067 providers.</p><div class="meta"><span class="host">getfiberwatch.com</span></div></div></a>
         <a href="https://nicglazkov.github.io/outagewatch/"><div class="ph"><img src="assets/ow-social.jpg" alt="OutageWatch" loading="lazy"></div><div class="in"><h3><span class="dot"></span>OutageWatch</h3><p>PG&amp;E outage alerts with live restoration estimates, and plain-language answers instead of a utility status code.</p><div class="meta"><span class="host">/outagewatch</span><span>iPhone · Android · Web</span></div></div></a>
+        <a href="https://chalkboard.studio"><div class="ph"><img src="assets/cb-og.jpg" alt="Chalkboard" loading="lazy"></div><div class="in"><h3><span class="dot"></span>Chalkboard</h3><p>Turns any topic into a narrated explainer video through a pipeline that drafts, fact-checks, animates, and renders it. Open source; the hosted version is in private beta.</p><div class="meta"><span class="host">chalkboard.studio</span></div></div></a>
       </div>
     </section>
 
@@ -119,20 +111,13 @@
     </section>
 
     <section class="panel" id="desktop">
-      <h2>Desktop</h2>
-      <div class="proj five">
+      <h2>Desktop and hardware</h2>
+      <div class="proj">
         <a href="https://nicglazkov.github.io/switchboard/"><div class="ph"><img src="assets/sb-board.jpg" alt="The Switchboard board, with chats from three computers sorted by what they need" loading="lazy"></div><div class="in"><h3>Switchboard</h3><p>One board for the Claude Code chats on all your computers: see which need you, answer them, open their terminals, and start new ones on any machine.</p><div class="meta"><span class="host">/switchboard</span><span>macOS · Windows · Linux</span></div></div></a>
         <a href="https://nicglazkov.github.io/jotbay/"><div class="ph"><img src="assets/jb-main.jpg" alt="Jotbay" loading="lazy"></div><div class="in"><h3>Jotbay</h3><p>Keeps a folder of markdown notes in sync across every machine you use, through a private git repository you own.</p><div class="meta"><span class="host">/jotbay</span><span>macOS · Windows · Linux · 150+ downloads</span></div></div></a>
         <a href="https://nicglazkov.github.io/gcloud-dot/"><div class="ph"><img src="assets/gd-tile.jpg" alt="GCloud Dot" loading="lazy"></div><div class="in"><h3>GCloud Dot</h3><p>Know before your cloud session expires, not after your next command fails. It measures the session and learns how long yours last.</p><div class="meta"><span class="host">/gcloud-dot</span><span>macOS · Windows · Linux · 140+ downloads</span></div></div></a>
         <a href="https://nicglazkov.github.io/overhang/"><div class="ph"><img src="assets/oh-tile.jpg" alt="Overhang" loading="lazy"></div><div class="in"><h3>Overhang</h3><p>Recovers the menu bar icons macOS hides behind the notch. Under 2 MB, no private APIs, and no permissions at all.</p><div class="meta"><span class="host">/overhang</span><span>macOS</span></div></div></a>
         <a href="https://nicglazkov.github.io/pixel-audio-bridge/"><div class="ph"><img src="assets/pab-social.jpg" alt="Pixel Audio Bridge" loading="lazy"></div><div class="in"><h3>Pixel Audio Bridge</h3><p>Hear your Android phone through the headphones already connected to your Mac. Put them on and it starts by itself.</p><div class="meta"><span class="host">/pixel-audio-bridge</span><span>macOS</span></div></div></a>
-      </div>
-    </section>
-
-    <section class="panel" id="longer">
-      <h2>Longer-running</h2>
-      <div class="proj two">
-        <a href="https://chalkboard.studio"><div class="ph"><img src="assets/cb-og.jpg" alt="Chalkboard" loading="lazy"></div><div class="in"><h3><span class="dot"></span>Chalkboard</h3><p>Turns any topic into a narrated explainer video through a pipeline that drafts, fact-checks, animates, and renders it. Open source; the hosted version is in private beta.</p><div class="meta"><span class="host">chalkboard.studio</span></div></div></a>
         <a class="tall" href="https://github.com/FH-EngineeringClub/UR10_Workspace"><div class="ph"><img src="assets/ur10.jpg" alt="UR10 chess robot" loading="lazy"></div><div class="in"><h3>UR10 chess robot</h3><p>A written-off industrial arm that a few of us rebuilt to play chess. It has not lost to a human yet.</p><div class="meta"><span class="host">github.com/FH-EngineeringClub</span><span>Foothill Engineering Club</span></div></div></a>
       </div>
     </section>
