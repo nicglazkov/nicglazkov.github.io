@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-v="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="google-site-verification" content="o3tCpEjiU3NXnDRgfmddiYaEDTEbJNFtU0IR1Ts-RXs">
+<title>Chess-playing robot, Nic Glazkov</title>
+<meta name="description" content="An industrial robot arm that was headed for e-waste, rebuilt to play chess.">
+<meta property="og:title" content="Chess-playing robot, Nic Glazkov">
+<meta property="og:description" content="An industrial robot arm that was headed for e-waste, rebuilt to play chess.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2313161b'/%3E%3Cpath d='M9 22V10h3.2l6 8.1V10H21v12h-3.1l-6.1-8.2V22z' fill='%23fff'/%3E%3C/svg%3E">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t})()</script>
+<link rel="preload" href="../../fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="../../site.js"></script>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap"><div class="top">
+  <a class="me" href="../../"><i></i>Nic Glazkov</a>
+  <nav aria-label="Main"><a href="../../work/" aria-current="page">Work</a><a href="../../about/">About</a><a href="../../resume/">Resume</a>
+  <button class="theme" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.2 1.2M11.8 11.8 13 13M3 13l1.2-1.2M11.8 4.2 13 3"/></svg><svg class="moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1Z"/></svg></button></nav>
+</div></header>
+<main id="main">
+<div class="pcx" style="--h:55"><section class="wrap phead">
+  <a class="back" href="../../work/" data-in>&larr; All work</a>
+  <h1 data-in>Chess-playing robot</h1>
+  <p data-in>An industrial robot arm that was headed for e-waste, rebuilt to play chess.</p>
+</section>
+<div class="wrap">
+  <figure class="cover tall" style="view-transition-name:shot-robot" data-in><img src="../../assets/ur10.jpg" alt="Chess-playing robot"></figure>
+  <div class="cols">
+    <aside class="rail">
+      <div><span class="label">Role</span>Project lead, Foothill Engineering Club</div>
+      <div><span class="label">When</span>September 2023 to December 2024</div>
+      <div><span class="label">Built with</span>Python, Stockfish, URScript</div>
+      <div><span class="label">Links</span><a class="ext" href="https://github.com/FH-EngineeringClub/UR10_Workspace">github.com/FH-EngineeringClub</a></div>
+    </aside>
+    <div class="body">
+      <section data-reveal><h2>Why I built it</h2><p>A set of industrial UR10 robot arms was about to be thrown out as e-waste, so I organized getting them donated to the Foothill College engineering club, and then we rebuilt one to play chess.</p></section>
+      <section data-reveal><h2>What it does</h2><ul class="plain"><li><b>A rebuilt UR10 arm</b> that plays on a real board.</li><li><b>Python software</b> that keeps track of the game, asks Stockfish for a move and then moves the arm to play it.</li><li><b>Public demos.</b> It beat everyone who played it, and one of them was rated 2700.</li></ul></section>
+      <section data-reveal><h2>How it works</h2><ol class="steps"><li><b>Your move</b><span>Someone types the player&#x27;s move in at the computer.</span></li><li><b>Board state</b><span>The software keeps track of the game and checks that the move is legal.</span></li><li><b>Stockfish</b><span>The chess engine picks a reply.</span></li><li><b>The arm</b><span>The UR10 picks up the piece and plays it on the board.</span></li></ol></section>
+      <section data-reveal><h2>What was hard</h2><ul class="hard"><li><h3>Getting an arm running</h3><p>The arms came to us as surplus, and one had to be rebuilt before it could play anything.</p></li><li><h3>A bigger team</h3><p>The team went from 4 people to about 20 while I was leading it.</p></li></ul></section>
+    </div>
+  </div>
+  <a class="next" href="../../work/commutescout/" data-reveal><span><span class="label">Next project</span><b>CommuteScout</b></span><span class="arrow" aria-hidden="true">&rarr;</span></a>
+</div></div>
+</main>
+<footer class="wrap"><div class="foot"><span>Nic Glazkov, Santa Clara, California</span>
+<div><a class="ext" href="https://github.com/nicglazkov">GitHub</a><a class="ext" href="https://www.linkedin.com/in/nicholas-glazkov">LinkedIn</a><a href="../../resume/">Resume</a></div></div></footer>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a176d383a88845e4a39bccf3f7c30879"}'></script>
+</body>
+</html>
