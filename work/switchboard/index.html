@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-v="">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="google-site-verification" content="o3tCpEjiU3NXnDRgfmddiYaEDTEbJNFtU0IR1Ts-RXs">
+<title>Switchboard, Nic Glazkov</title>
+<meta name="description" content="One board for the Claude Code chats on all of your computers.">
+<meta property="og:title" content="Switchboard, Nic Glazkov">
+<meta property="og:description" content="One board for the Claude Code chats on all of your computers.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0b0d11" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f4f5f7" media="(prefers-color-scheme: light)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2313161b'/%3E%3Cpath d='M9 22V10h3.2l6 8.1V10H21v12h-3.1l-6.1-8.2V22z' fill='%23fff'/%3E%3C/svg%3E">
+<script>(function(){var t;try{t=localStorage.getItem('theme')}catch(e){}if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.dataset.theme=t})()</script>
+<link rel="preload" href="../../fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../../site.css">
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script defer src="../../site.js"></script>
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="wrap"><div class="top">
+  <a class="me" href="../../"><i></i>Nic Glazkov</a>
+  <nav aria-label="Main"><a href="../../work/" aria-current="page">Work</a><a href="../../about/">About</a><a href="../../resume/">Resume</a>
+  <button class="theme" type="button" aria-label="Switch theme"><svg class="sun" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"/><path d="M8 1v1.6M8 13.4V15M1 8h1.6M13.4 8H15M3 3l1.2 1.2M11.8 11.8 13 13M3 13l1.2-1.2M11.8 4.2 13 3"/></svg><svg class="moon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 9.6A5.6 5.6 0 0 1 6.4 2.5a5.6 5.6 0 1 0 7.1 7.1Z"/></svg></button></nav>
+</div></header>
+<main id="main">
+<div class="pcx" style="--h:200"><section class="wrap phead">
+  <a class="back" href="../../work/" data-in>&larr; All work</a>
+  <h1 data-in>Switchboard</h1>
+  <p data-in>One board for the Claude Code chats on all of your computers.</p>
+</section>
+<div class="wrap">
+  <figure class="cover" style="view-transition-name:shot-switchboard" data-in><img src="../../assets/sb-board.jpg" alt="Switchboard"></figure>
+  <div class="cols">
+    <aside class="rail">
+      
+      <div><span class="label">When</span>October 2026 to now</div>
+      <div><span class="label">Built with</span>Rust, GPUI, Python</div>
+      <div><span class="label">Links</span><a class="ext" href="https://github.com/nicglazkov/switchboard">github.com/nicglazkov/switchboard</a></div>
+    </aside>
+    <div class="body">
+      <section data-reveal><h2>Why I built it</h2><p>I run Claude Code on a desktop, a laptop and a server. Every chat lives in its own terminal on its own computer, and I kept losing track of which ones were waiting on me.</p><p>I wanted to see all of them in one place and answer the ones that were stuck. I also wanted to know what it would cost to pick an old one back up.</p></section>
+      <section data-reveal><h2>What it does</h2><ul class="plain"><li><b>A board sorted by what each chat needs.</b> Each computer gets a row, and its chats sit under Needs you, Working, Warm now, Gone cold or Quiet. You can answer a question right from its card.</li><li><b>What it costs to go back.</b> A cold chat re-reads its whole history on the next message. Switchboard compares resuming it with starting fresh from a summary, and suggests whichever is cheaper.</li><li><b>Terminals from anywhere.</b> You can open any chat&#x27;s terminal in a tab or a window, even when that computer is behind another router.</li><li><b>New chats on any computer.</b> You pick the computer, the folder and the model, or let it pick the computer for you.</li><li><b>Search and usage.</b> It searches every chat on every computer, and it tracks plan usage against a daily budget.</li></ul></section>
+      <section data-reveal><h2>How it works</h2><ol class="steps"><li><b>Server</b><span>Runs on one computer that stays on.</span></li><li><b>Helper</b><span>A small program on each computer where you use Claude Code.</span></li><li><b>App</b><span>Shows the board on Mac, Windows or Linux.</span></li><li><b>No cloud</b><span>Everything runs on your own computers, and there&#x27;s no account to make.</span></li></ol></section>
+      <section data-reveal><h2>What was hard</h2><ul class="hard"><li><h3>Mac, Windows and Linux</h3><p>The app is written in Rust with GPUI, and it runs on all three. The Mac build is signed and notarized, and the Windows build installs without admin rights.</p></li><li><h3>Computers on different networks</h3><p>A laptop on one network has to open a terminal on a desktop that&#x27;s behind another router. Everything goes through the server, so the two never have to reach each other directly.</p></li><li><h3>Showing the cost</h3><p>Whether to resume a chat or start over is usually a guess. Switchboard works out both numbers, and it holds any message that would re-read a big cold chat until you confirm.</p></li></ul></section>
+    </div>
+  </div>
+  <a class="next" href="../../work/fiberwatch/" data-reveal><span><span class="label">Next project</span><b>FiberWatch</b></span><span class="arrow" aria-hidden="true">&rarr;</span></a>
+</div></div>
+</main>
+<footer class="wrap"><div class="foot"><span>Nic Glazkov, Santa Clara, California</span>
+<div><a class="ext" href="https://github.com/nicglazkov">GitHub</a><a class="ext" href="https://www.linkedin.com/in/nicholas-glazkov">LinkedIn</a><a href="../../resume/">Resume</a></div></div></footer>
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "a176d383a88845e4a39bccf3f7c30879"}'></script>
+</body>
+</html>
